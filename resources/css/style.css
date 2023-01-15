@@ -1,0 +1,71 @@
+
+body{
+  background-color: black!important;
+  color: white !important
+}
+#newStatus{
+  margin: 10rem
+}
+ p{
+  display: block !important;
+  margin: 7rem auto !important;
+  text-align: center !important ;
+}
+input{
+  margin: 5rem auto;
+  display: block;
+
+}
+
+.myBtn{
+  display: block;
+  margin: 0 auto;
+}
+.spinner-border,.spinner-grow {
+  display: block !important;
+  margin: 0 auto !important;
+}
+
+.predictions {
+  width: 70%;
+}
+
+#display-div {
+  position: relative; 
+  left: 0; 
+  right: 0; 
+  margin-left: auto; 
+  margin-right: auto; 
+  width: 70%; 
+  transition: 0.35s ease-in-out;
+  
+}
+
+#predictionsDiv, #predictions{
+  position: relative;
+  margin: 20rem 0;
+  background: red;
+ 
+}
+.center{
+  text-align: center;
+}
+.tooltip-style {
+  font: 100% sans-serif;
+  transition: 0.35s ease-in-out;
+  color: rgb(226, 197, 197);
+  position: absolute;
+  pointer-events: none;
+  width: 15%;
+  text-align: center;
+  background: rgba(82, 77, 77, 0.178);
+}
+
+
+.myTable, #svgElement{
+  position: relative; 
+  left: 0; 
+  right: 0; 
+  margin-left: auto; 
+  margin-right: auto; 
+}
