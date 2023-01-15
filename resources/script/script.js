@@ -31,14 +31,19 @@ async function loadModel(){
   imageListener.addEventListener("change", ()=>{
         if(array1.length > 0){
         let text = document.querySelectorAll('#predictions');
-        var svgElement = document.getElementById('svgElement')
-        svgElement.parentNode.removeChild(svgElement)
+        var svgElement = document.getElementById('svgElement');
+        const newTable = document.getElementById('myTable')
+        svgElement === null ? console.log(0) : svgElement.parentNode.removeChild(svgElement)
+        newTable === null ? console.log(0) : newTable.parentNode.removeChild(newTable)
+        data = []
         const canvas = document.querySelectorAll('canvas');
         canvas.forEach((item)=>item.remove());
         text.forEach((item)=>item.parentNode.removeChild(item));
         imageDataInput = []
-        array1 = []
+        array1 = [];
+      
     }
+    
     grow.classList.remove('invisible');
     myBtn.classList.add('invisible')
     predict()
@@ -148,7 +153,7 @@ myBtn.addEventListener('click', compactionGraph)
 
   let dst = cv.Mat.zeros(225, 225, cv.CV_8UC3);
   cv.cvtColor(src, src, cv.COLOR_RGBA2GRAY, 0);
-  cv.threshold(src, src, 30, 150, cv.THRESH_BINARY);
+  cv.threshold(src, src,40, 90, cv.THRESH_TOZERO);
   let contours = new cv.MatVector();
   let hierachy = new cv.Mat();
   cv.findContours(src, contours, hierachy, cv.RETR_CCOMP, cv.CHAIN_APPROX_TC89_KCOS);
@@ -267,7 +272,7 @@ function compactionGraph(){
    .attr('fill', 'gray')
 
    svg.append('text')
-   .attr('transform', 'translate('+(width)+' ,'+(height+30)+')')
+   .attr('transform', 'translate('+(width)+' ,'+(height+35)+')')
    .style('text-anchor', 'middle')
    .text('Time')
    .style('font',"16px sans-serif")
@@ -275,7 +280,7 @@ function compactionGraph(){
 
    //create a table
    var table = d3.select('body').append('table')
-                                .attr('class', 'myTable')
+                                .attr('id', 'myTable')
 
    ;
 

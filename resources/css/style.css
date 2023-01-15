@@ -62,7 +62,7 @@ input{
 }
 
 
-.myTable, #svgElement{
+#myTable, #svgElement{
   position: relative; 
   left: 0; 
   right: 0; 
