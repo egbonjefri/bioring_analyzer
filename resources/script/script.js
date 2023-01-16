@@ -174,7 +174,7 @@ myBtn.addEventListener('click', compactionGraph)
  if(array2.length !== 1){
     let newDiv = document.createElement('p');
     newDiv.setAttribute('id', 'predictions');
-    newDiv.innerText = `Can't detect lumen area in one or more images...`
+    newDiv.innerText = `Can't detect lumen area in the higlighted image(s)...`
     predictionsDiv.appendChild(newDiv);
     canvas.style.border = 'solid 3px red';
     grow.classList.add('invisible');
@@ -196,6 +196,7 @@ function compactionGraph(){
   for(let i = 0; i < data.length; i++){
     if(data[i].y===null){
       data.splice(i,1);
+      return
     }
     let diff = 1-((baseline - data[i].y)/baseline);
     data[i].diff = diff
