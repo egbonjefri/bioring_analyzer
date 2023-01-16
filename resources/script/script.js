@@ -153,10 +153,10 @@ myBtn.addEventListener('click', compactionGraph)
 
   let dst = cv.Mat.zeros(225, 225, cv.CV_8UC3);
   cv.cvtColor(src, src, cv.COLOR_RGBA2GRAY, 0);
-  cv.threshold(src, src,40, 90, cv.THRESH_TOZERO);
+  cv.threshold(src, src,40, 100, cv.THRESH_BINARY);
   let contours = new cv.MatVector();
   let hierachy = new cv.Mat();
-  cv.findContours(src, contours, hierachy, cv.RETR_CCOMP, cv.CHAIN_APPROX_TC89_KCOS);
+  cv.findContours(src, contours, hierachy, cv.RETR_CCOMP, cv.CHAIN_APPROX_SIMPLE);
   for(let i = 0; i < contours.size(); i++){
     let color = new cv.Scalar(Math.round(Math.random()*255), Math.round(Math.random()*255),Math.round(Math.random()*255));
     let contour = contours.get(i);
@@ -165,7 +165,7 @@ myBtn.addEventListener('click', compactionGraph)
     let diff = (2*Math.sqrt(Math.PI*size))
     
     if(size > 500 && (perimeter-diff) <= circularityIndex){
-      cv.drawContours(dst, contours, i , color, 2, cv.LINE_4, hierachy, 1);
+      cv.drawContours(dst, contours, i , color, 2, cv.LINE_4, hierachy, 100);
       array2.push(1);
       data.push({x: index, y: size})
     }
@@ -198,7 +198,7 @@ function compactionGraph(){
       data.splice(i,1);
     }
     let diff = 1-((baseline - data[i].y)/baseline);
-    data[i].y = diff
+    data[i].diff = diff
   }
   var margin = {top: 160, right: 20, bottom: 100, left: 140},
       width = (300*data.length) - margin.left - margin.right,
@@ -232,14 +232,14 @@ function compactionGraph(){
       .attr('class', 'dot')
       .attr('r',5)
       .attr('cx',function(d){return (scaleX(d.x))+scaleX.bandwidth()-(10*data.length)})
-      .attr('cy', function(d){return scaleY(d.y)})
+      .attr('cy', function(d){return scaleY(d.diff)})
       .attr('fill', '#69b3a2')
       .on('mousemove', function(d,event){
         d3.select(this).attr('r',10).style('fill','gray')
         tooltip.style('opacity',1)
         tooltip.html(`Day ${event.x}: <br>
         Percent reduction:
-        ${(event.y*100).toFixed(2)}%`)
+        ${(event.diff*100).toFixed(2)}%`)
         tooltip.style('left',(d.pageX)+'px')
         tooltip.style('top',(d.pageY)+'px')
       })
@@ -254,7 +254,7 @@ function compactionGraph(){
       .attr("stroke-width", 1.5)
       .attr("d", d3.line()
         .x(function(d){return Number(scaleX(d.x))+scaleX.bandwidth()-(10*data.length)})
-        .y(function(d){return scaleY(d.y)})
+        .y(function(d){return scaleY(d.diff)})
         )
   svg.append('g')
     .attr('transform', 'translate(100,'+(height)+')')
@@ -287,7 +287,7 @@ function compactionGraph(){
    var thead  = table.append('thead');
    thead.append('tr')
         .selectAll('th')
-        .data(['Time', 'Percent Reduction'])
+        .data(['Time', 'Area (pixels)', 'Percent Reduction'])
         .enter()
         .append('th')
         .text(function(d) { return d; })
